@@ -26,12 +26,12 @@ Vue.config.productionTip = false
 
 // Initialize Firebase
 let config = {
-	apiKey: "AIzaSyDw7xq7aA9pZdN0DRN6gW7vwjXYQPUYu-U",
-	authDomain: "spatialhealth-9a8f7.firebaseapp.com",
-	databaseURL: "https://spatialhealth-9a8f7.firebaseio.com",
-	projectId: "spatialhealth-9a8f7",
-	storageBucket: "spatialhealth-9a8f7.appspot.com",
-	messagingSenderId: "513390501485"
+	apiKey: "API_KEY",
+	authDomain: "AUTH_DOMAIN",
+	databaseURL: "DATABASE_URL",
+	projectId: "PROJECT_ID",
+	storageBucket: "STORAGE_BUCKET",
+	messagingSenderId: "MESSAGING_SENDER_ID"
 };
 firebase.initializeApp(config);
 
