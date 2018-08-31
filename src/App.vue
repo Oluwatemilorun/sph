@@ -1,27 +1,34 @@
 <template>
 	<v-app>
-		<router-view />
+		<router-view :showSnackbar="showSnackbar" />
+
+		<v-snackbar
+			v-model="snackbar"
+			:color="snackbarColor"
+		>
+			{{snackbarText}}
+			<v-btn flat color="accent" @click.native="snackbar = false">Close</v-btn>
+		</v-snackbar>
 	</v-app>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      items: [{
-        icon: 'bubble_chart',
-        title: 'Inspire'
-      }],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
-  },
-  name: 'App'
+	data () {
+		return {
+			snackbar: false,
+			snackbarText: null,
+			snackbarColor: 'green'
+		}
+	},
+	methods: {
+		showSnackbar(type, text) {
+			this.snackbarText = text || 'Processing...'
+			this.snackbarColor = type == 'error' ? 'error' : type == 'success' ? 'success' : 'blue-grey darken-3'
+			this.snackbar = true;
+		},
+	},
+	name: 'App'
 }
 </script>
 

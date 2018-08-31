@@ -353,12 +353,6 @@
 				</v-flex>
 			</v-layout>
 
-			<v-snackbar
-				v-model="snackbar"
-			>
-				{{snackbarText}}
-				<v-btn flat color="accent" @click.native="snackbar = false">Close</v-btn>
-			</v-snackbar>
 		</v-container>
 	</v-fade-transition>
 </template>
@@ -371,6 +365,7 @@ import 'firebase/storage';
 import 'firebase/firestore';
 
 export default {
+	props: ['showSnackbar'],
 	data () {
 		return {
 			e1: 0,
@@ -454,10 +449,6 @@ export default {
 		}
 	},
 	methods: {
-		showSnackbar(text) {
-			this.snackbarText = text || 'Processing'
-			this.snackbar = true;
-		},
 		stepChange () {
 			if (this.e1 == 1) {
 				this.nextBtnText = 'Create account'
@@ -483,22 +474,22 @@ export default {
 		processError (error) {
 			console.log(error);
 			if (error.code == "auth/network-request-failed") {
-                this.showSnackbar('Network Error');
+                this.showSnackbar('error', 'Network Error');
             }
             else if (error.code == "auth/email-already-in-use") {
-                this.showSnackbar('Email already in use');
+                this.showSnackbar('error', 'Email already in use');
             }
             else if (error.code == "auth/wrong-password") {
-                this.showSnackbar("Invalid username or password");
+                this.showSnackbar('error', "Invalid username or password");
             }
             else if (error.code == "auth/invalid-email") {
-                this.showSnackbar("Invalid username or password");
+                this.showSnackbar('error', "Invalid username or password");
             }
             else if (error.code == "auth/user-not-found") {
-                this.showSnackbar("Invalid username or password");
+                this.showSnackbar('error', "Invalid username or password");
             }
             else {
-                Toast.settle('An Error occured');
+                this.showSnackbar('error', 'An Error occured');
             }
 		},
 		processShare (platform) {
@@ -529,7 +520,7 @@ export default {
 			switch (step) {
 				case 1:
 					if (!this.accountForm) {
-						return this.showSnackbar('Make sure all inputs are not empty and valid');
+						return this.showSnackbar('neutral', 'Make sure all inputs are not empty and valid');
 					}
 					this.isLoading = true;
 
@@ -541,7 +532,7 @@ export default {
 							await user.sendEmailVerification();
 							
 							this.isLoading = false;
-							this.showSnackbar('Account created. Please verify your email address.')
+							this.showSnackbar('success', 'Account created. Please verify your email address.')
 							this.e1 = 2;
 
 						} catch (error) {
@@ -554,7 +545,7 @@ export default {
 
 				case 2:
 					if (!this.profileForm) {
-						return this.showSnackbar('Make sure all inputs are not empty and valid');
+						return this.showSnackbar('neutral', 'Make sure all inputs are not empty and valid');
 					}
 					this.isLoading = true;
 
@@ -572,7 +563,7 @@ export default {
 								}, { merge: true });
 
 								this.isLoading = false;
-								this.showSnackbar('Saved successfuly');
+								this.showSnackbar('success', 'Saved successfuly');
 								this.e1 = 3;
 							}
 							else {
@@ -589,7 +580,7 @@ export default {
 
 				case 3:
 					if (!this.schoolForm) {
-						return this.showSnackbar('Make sure all inputs are not empty and valid');
+						return this.showSnackbar('neutral', 'Make sure all inputs are not empty and valid');
 					}
 					this.isLoading = true;
 
@@ -603,7 +594,7 @@ export default {
 					}, { merge: true })
 						.then(() => {
 							this.isLoading = false;
-							this.showSnackbar('Saved successfuly');
+							this.showSnackbar('success', 'Saved successfuly');
 							this.e1 = 4;
 						})
 						.catch(err => {
@@ -615,7 +606,7 @@ export default {
 
 				case 4:
 					if(!this.medicalForm) {
-						return this.showSnackbar('Make sure all inputs are not empty and valid');
+						return this.showSnackbar('neutral', 'Make sure all inputs are not empty and valid');
 					}
 					this.isLoading = true;
 
@@ -626,7 +617,7 @@ export default {
 					}, { merge: true })
 						.then(() => {
 							this.isLoading = false;
-							this.showSnackbar('Saved successfuly');
+							this.showSnackbar('success', 'Saved successfuly');
 							this.e1 = 5;
 						})
 						.catch(err => {
@@ -670,7 +661,7 @@ export default {
 						.catch(err => {
 							console.log(err);
 							this.isUploading = false;
-							this.showSnackbar('Error occured while uploading profile picture');
+							this.showSnackbar('error', 'Error occured while uploading profile picture');
 							reject(false);
 						});
 				}

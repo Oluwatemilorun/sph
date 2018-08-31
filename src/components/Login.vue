@@ -39,7 +39,10 @@
 											:rules="passwordRule"
 										></v-text-field>
 									</v-flex>
-									<v-btn :disabled="!accountForm" :loading="loading" color="primary">log in</v-btn>
+									<v-flex xs11 md8>
+										
+										<v-btn :disabled="!accountForm" :loading="loading" color="primary mx-auto d-block">log in</v-btn>
+									</v-flex>
 								</v-layout>
 							</v-form>
 						</v-container>
@@ -56,6 +59,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
+	props: ['showSnackbar'],
 	data () {
 		return {
 			email: '',
@@ -76,22 +80,22 @@ export default {
 		processError (error) {
 			console.log(error);
 			if (error.code == "auth/network-request-failed") {
-                this.showSnackbar('Network Error');
+                this.showSnackbar('error', 'Network Error');
             }
             else if (error.code == "auth/email-already-in-use") {
-                this.showSnackbar('Email already in use');
+                this.showSnackbar('error', 'Email already in use');
             }
             else if (error.code == "auth/wrong-password") {
-                this.showSnackbar("Invalid username or password");
+                this.showSnackbar('error', "Invalid username or password");
             }
             else if (error.code == "auth/invalid-email") {
-                this.showSnackbar("Invalid username or password");
+                this.showSnackbar('error', "Invalid username or password");
             }
             else if (error.code == "auth/user-not-found") {
-                this.showSnackbar("Invalid username or password");
+                this.showSnackbar('error', "Invalid username or password");
             }
             else {
-                Toast.settle('An Error occured');
+                this.showSnackbar('error', 'An Error occured');
             }
 		},
 		processLogin () {
@@ -100,9 +104,9 @@ export default {
 				.then((res) => {
 					this.$router.replace('/u');
 				})
-				.catch(function (error) {
+				.catch((error) => {
 					this.loading = false;
-					processError('error');
+					this.processError(error);
 				});
 		}
 	}
