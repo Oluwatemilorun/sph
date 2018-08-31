@@ -144,6 +144,18 @@
 																		required
 																	></v-textarea>
 																</v-flex>
+																<v-flex xs12>
+																	<v-textarea
+																		v-model="lodge"
+																		name="lodhe"
+																		label="Hostel/Lodge address"
+																		id="lodge"
+																		:no-resize="true"
+																		rows="2"
+																		:rules="defaultRule"
+																		required
+																	></v-textarea>
+																</v-flex>
 																<v-flex xs12 md4>
 																	<v-text-field
 																		v-model="phone"
@@ -445,7 +457,8 @@ export default {
 			// ]
 			bloodgroup: '',
 			genotypeItem: ['AA', 'AS', 'SS', 'AC'],
-			genotype: ''
+			genotype: '',
+			lodge: null
 		}
 	},
 	methods: {
@@ -560,6 +573,8 @@ export default {
 									phone: this.phone,
 									currentStep: this.e1,
 									profilePicture: this.profilePicture,
+									dob: this.dob,
+									lodge: this.lodge
 								}, { merge: true });
 
 								this.isLoading = false;
@@ -590,6 +605,8 @@ export default {
 						department: this.department,
 						level: this.level,
 						matric_no: this.matricNo,
+						clinic: this.clinic,
+						clinicId: this.clinicId,
 						currentStep: this.e1
 					}, { merge: true })
 						.then(() => {

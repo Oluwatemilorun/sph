@@ -39,9 +39,8 @@
 											:rules="passwordRule"
 										></v-text-field>
 									</v-flex>
-									<v-flex xs11 md8>
-										
-										<v-btn :disabled="!accountForm" :loading="loading" color="primary mx-auto d-block">log in</v-btn>
+									<v-flex xs11 md8>										
+										<v-btn :disabled="!accountForm" :loading="loading" color="primary mx-auto d-block" @click="processLogin">log in</v-btn>
 									</v-flex>
 								</v-layout>
 							</v-form>
